@@ -1,0 +1,19 @@
+% --- Base de Conocimientos (Hechos) ---
+conecta(vancouver,edmonton,16).
+conecta(vancouver,calgary,13).
+conecta(calgary,edmonton,4).
+conecta(edmonton,saskatoon,12).
+conecta(saskatoon,calgary,9).
+conecta(calgary,regina,14).
+conecta(regina,saskatoon,7).
+conecta(regina,winnipeg,4).
+conecta(saskatoon,winnipeg,20).
+
+% --- Reglas ---
+
+% Regla para determinar si un nodo tiene aristas (sale de él alguna conexión)
+arista(X):- conecta(X,,).
+% Ejemplo de consulta: ?- arista(vancouver).
+% Respuesta esperada: true.
+% Ejemplo de consulta: ?- arista(winnipeg).
+% Respuesta esperada: false. (Porque no hay hechos donde winnipeg sea el origen)
