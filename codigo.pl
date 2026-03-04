@@ -1,0 +1,44 @@
+% --- Base de Conocimientos (Hechos) ---
+conecta(vancouver,edmonton,16).
+conecta(vancouver,calgary,13).
+conecta(calgary,edmonton,4).
+conecta(edmonton,saskatoon,12).
+conecta(saskatoon,calgary,9).
+conecta(calgary,regina,14).
+conecta(regina,saskatoon,7).
+conecta(regina,winnipeg,4).
+conecta(saskatoon,winnipeg,20).
+
+% --- Reglas ---
+
+% Regla para determinar si un nodo tiene aristas (sale de él alguna conexión)
+arista(X):- conecta(X,_,_).
+% Ejemplo de consulta: ?- arista(vancouver).
+% Respuesta esperada: true.
+% Ejemplo de consulta: ?- arista(winnipeg).
+% Respuesta esperada: false. (Porque no hay hechos donde winnipeg sea el origen)
+
+% Regla para determinar el costo de ir de X a Z pasando por Y
+costo(X,Y,Z,C):- conecta(X,Y,C1), conecta(Y,Z,C2), C is C1 + C2.
+% Ejemplo de consulta: ?- costo(vancouver, calgary, regina, C).
+% Respuesta esperada: C = 27. (13 de vancouver-calgary + 14 de calgary-regina)
+
+% Regla recursiva para determinar si existe una ruta entre dos nodos (Cualquier distancia)
+ruta(X,Y):- conecta(X,Y,_).
+ruta(X,Y):- conecta(X,Z,_), ruta(Z,Y).
+% Ejemplo de consulta: ?- ruta(vancouver, saskatoon).
+% Respuesta esperada: true. (Puede ir vía edmonton o vía calgary)
+% Ejemplo de consulta: ?- ruta(saskatoon, vancouver).
+% Respuesta esperada: false. (Las conexiones son de un solo sentido hacia el este)
+
+% --- Consultas adicionales para las "Posibles preguntas" de la imagen ---
+
+% 1. ¿Existe conexión entre Saskatoon y Vancouver?
+% Consulta: ?- ruta(saskatoon, vancouver).
+% Respuesta: false.
+
+% 2. ¿Con qué nodos está conectado Regina y cuál es su costo?
+% Consulta: ?- conecta(regina, Nodo, Costo).
+% Respuesta esperada (Pulsar ';' para ver todas): 
+% Nodo = saskatoon, Costo = 7 ;
+% Nodo = winnipeg, Costo = 4.
